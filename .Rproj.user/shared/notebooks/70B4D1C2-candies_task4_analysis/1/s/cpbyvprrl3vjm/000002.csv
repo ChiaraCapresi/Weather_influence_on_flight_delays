@@ -1,0 +1,31 @@
+"0","```r
+clean_candies_2015 <- read_csv(here::here(\"clean_data/clean_candies-2015.csv\"))
+```"
+"1","Rows: 534850 Columns: 7── Column specification ────────────────────────────────────────────────────────────────────────────────────────────
+Delimiter: \",\"
+chr (3): going_trick, candies, appreciation_rating
+dbl (2): year, age
+lgl (2): gender, country
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+"
+"0","```r
+clean_candies_2016 <- read_csv(here::here(\"clean_data/clean_candies_2016.csv\"))
+```"
+"1","Rows: 127159 Columns: 7── Column specification ────────────────────────────────────────────────────────────────────────────────────────────
+Delimiter: \",\"
+chr (5): gender, country, going_trick, candies, appreciation_rating
+dbl (2): year, age
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+"
+"0","```r
+clean_candies_2017 <- read_csv(here::here(\"clean_data/clean_candies_2017.csv\"))
+```"
+"1","Rows: 253380 Columns: 7── Column specification ────────────────────────────────────────────────────────────────────────────────────────────
+Delimiter: \",\"
+chr (5): gender, country, going_trick, candies, appreciation_rating
+dbl (2): year, age
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+"

@@ -1,0 +1,9 @@
+"0","```r
+candy %>% 
+  filter(!(is.na(numeric_rating)) & !(is.na(gender)) & str_detect(candies, \"bar\")) %>% 
+  group_by(gender, candies) %>% 
+  summarise(most_pop_per_gender = sum(numeric_rating)) %>% 
+  slice_max(most_pop_per_gender)
+```"
+"1","`summarise()` has grouped output by 'gender'. You can override using the `.groups` argument.
+"

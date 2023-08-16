@@ -1,0 +1,5 @@
+"0","```r
+candy %>% 
+  filter(candies == \"Starburst\" & appreciation_rating == \"DESPAIR\" & ((!(is.na(age)) | (!(is.na(gender)))))) %>% 
+  summarise(num_Starburst_despair = n())
+```"

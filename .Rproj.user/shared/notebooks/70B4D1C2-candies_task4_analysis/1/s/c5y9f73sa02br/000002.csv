@@ -1,0 +1,10 @@
+"0","```r
+candy %>% 
+  mutate(country = if_else((!(country %in% c(\"USA\", \"Canada\", \"UK\"))), \"others\", country)) %>% 
+  filter(str_detect(candies, \"bar\") & (!is.na(numeric_rating))) %>% 
+  group_by(country, candies) %>% 
+  summarise(ratings_candybar_per_country = sum(numeric_rating)) %>% 
+  slice_max(ratings_candybar_per_country) 
+```"
+"1","`summarise()` has grouped output by 'country'. You can override using the `.groups` argument.
+"

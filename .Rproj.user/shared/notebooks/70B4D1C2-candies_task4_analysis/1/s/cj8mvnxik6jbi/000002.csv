@@ -1,0 +1,5 @@
+"0","```r
+candy %>% 
+  filter(going_trick == \"No\") %>% 
+  summarise(average_age_no_trick = mean(age, na.rm =TRUE))
+```"

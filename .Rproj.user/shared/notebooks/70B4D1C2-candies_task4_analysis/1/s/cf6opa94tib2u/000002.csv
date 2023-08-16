@@ -1,0 +1,21 @@
+"0","```r
+nrow(clean_candies_2015) + nrow(clean_candies_2016) + nrow(clean_candies_2017)
+```"
+"1","[1] 915389
+"
+"0","```r
+nrow(candy)
+```"
+"1","[1] 915389
+"
+"0","```r
+dim(candy)
+```"
+"1","[1] 915389      7
+"
+"0","```r
+names(candy)
+```"
+"1","[1] \"year\"                \"age\"                 \"gender\"              \"going_trick\"         \"candies\"            
+[6] \"appreciation_rating\" \"country\"            
+"

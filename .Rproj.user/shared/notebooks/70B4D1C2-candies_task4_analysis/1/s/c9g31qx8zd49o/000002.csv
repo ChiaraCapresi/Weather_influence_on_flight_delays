@@ -1,0 +1,6 @@
+"0","```r
+candy %>% 
+  group_by(year) %>% 
+  filter(!(is.na(appreciation_rating))) %>% 
+  summarise(n_ratings_per_year = n())
+```"

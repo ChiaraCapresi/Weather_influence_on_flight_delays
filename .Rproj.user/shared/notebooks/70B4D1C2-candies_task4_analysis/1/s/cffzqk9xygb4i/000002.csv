@@ -1,0 +1,10 @@
+"0","```r
+ candy <- candy %>% 
+  #select(appreciation_rating) %>% 
+  mutate(numeric_rating = case_when(
+    appreciation_rating == \"DESPAIR\" ~ -1,
+    appreciation_rating == \"JOY\" ~ +1,
+    appreciation_rating == \"MEH\" ~ 0
+  ))
+  
+```"

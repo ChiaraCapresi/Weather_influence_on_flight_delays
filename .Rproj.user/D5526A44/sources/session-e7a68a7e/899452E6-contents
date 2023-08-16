@@ -1,0 +1,184 @@
+---
+title: "Candies project"
+output: html_notebook
+---
+
+# Analysis of the Candy data files.
+
+At a first sight it appears clear that the three data files are quite confusing. The names of the columns are not clean and also the structure of the tables doesn't facilitate analysis.
+
+## File's content:
+
+All the three files seems to include data about a certain sample of people and their appreciation/or not of each type of candy.
+
+However, the three tables have not the same columns, so, some data are missing for each year.
+
+
+
+
+1.4.2 Analysis questions
+
+   1. What is the total number of candy ratings given across the three years. (Number of candy ratings, not the number of raters. Don’t count missing values)
+  2.  What was the average age of people who are going out trick or treating?
+  3.  What was the average age of people who are not going trick or treating?
+  4.  For each of joy, despair and meh, which candy bar received the most of these ratings?
+  5.  How many people rated Starburst as despair?
+
+For the next three questions, count despair as -1, joy as +1, and meh as 0.
+
+   6. What was the most popular candy bar by this rating system for each gender in the dataset ?
+   7. What was the most popular candy bar in each year?
+   8. What was the most popular candy bar by this rating for people in US, Canada, UK, and all other countries?
+   
+# Let's start reading our data
+
+
+
+```{r}
+library(tidyverse)
+```
+
+```{r}
+clean_candies_2015 <- read_csv(here::here("clean_data/clean_candies-2015.csv"))
+clean_candies_2016 <- read_csv(here::here("clean_data/clean_candies_2016.csv"))
+clean_candies_2017 <- read_csv(here::here("clean_data/clean_candies_2017.csv"))
+```
+Now I am going to match the three data table together
+
+
+```{r}
+candy <- bind_rows(clean_candies_2015, clean_candies_2016, clean_candies_2017)
+```
+
+```{r}
+#summary(clean_candies_2015)
+```
+
+
+ 
+```{r}
+#view(candy)
+```
+
+
+```{r}
+nrow(clean_candies_2015) + nrow(clean_candies_2016) + nrow(clean_candies_2017)
+nrow(candy)
+dim(candy)
+names(candy)
+```
+It seems that that matching has been done correctly!!!
+
+
+
+#1. What is the total number of candy ratings given across the three years. (Number of candy ratings, not the number of raters. Don’t count missing values)
+
+
+
+```{r}
+candy %>% 
+  group_by(year) %>% 
+  filter(!(is.na(appreciation_rating))) %>% 
+  summarise(n_ratings_per_year = n())
+```
+
+#  2.  What was the average age of people who are going out trick or treating?
+
+
+```{r}
+candy %>% 
+  filter(going_trick == "Yes") %>% 
+  summarise(average_age_trick = mean(age, na.rm =TRUE))
+
+```
+
+
+#  3.  What was the average age of people who are not going trick or treating?
+
+```{r}
+candy %>% 
+  filter(going_trick == "No") %>% 
+  summarise(average_age_no_trick = mean(age, na.rm =TRUE))
+```
+
+#   4.  For each of joy, despair and meh, which candy bar received the most of these ratings?
+
+
+```{r}
+candy %>% 
+  filter(!(is.na(appreciation_rating)) & str_detect(candies, "bar")) %>% 
+  group_by(appreciation_rating, candies) %>% 
+  summarise(num = n()) %>% 
+  slice_max(num)
+```
+
+
+
+
+#   5.  How many people rated Starburst as despair?
+
+```{r}
+candy %>% 
+  filter(candies == "Starburst" & appreciation_rating == "DESPAIR" & ((!(is.na(age)) | (!(is.na(gender)))))) %>% 
+  summarise(num_Starburst_despair = n())
+```
+#For the next three questions, count despair as -1, joy as +1, and meh as 0.
+
+
+```{r}
+ candy <- candy %>% 
+  #select(appreciation_rating) %>% 
+  mutate(numeric_rating = case_when(
+    appreciation_rating == "DESPAIR" ~ -1,
+    appreciation_rating == "JOY" ~ +1,
+    appreciation_rating == "MEH" ~ 0
+  ))
+  
+```
+
+
+
+#   6. What was the most popular candy bar by this rating system for each gender in the dataset ?
+
+
+
+
+```{r}
+candy %>% 
+  filter(!(is.na(numeric_rating)) & !(is.na(gender)) & str_detect(candies, "bar")) %>% 
+  group_by(gender, candies) %>% 
+  summarise(most_pop_per_gender = sum(numeric_rating)) %>% 
+  slice_max(most_pop_per_gender)
+```
+
+
+#    7. What was the most popular candy bar in each year?
+
+
+
+```{r}
+candy %>% 
+  filter(str_detect(candies, "bar") & (!is.na(numeric_rating))) %>%
+  group_by(year, candies) %>% 
+  summarise(ratings_candybar_per_year = sum(numeric_rating)) %>% 
+  slice_max(ratings_candybar_per_year)
+
+```
+
+
+#    8. What was the most popular candy bar by this rating for people in US, Canada, UK, and all other countries?
+
+
+```{r}
+candy %>% 
+  mutate(country = if_else((!(country %in% c("USA", "Canada", "UK"))), "others", country)) %>% 
+  filter(str_detect(candies, "bar") & (!is.na(numeric_rating))) %>% 
+  group_by(country, candies) %>% 
+  summarise(ratings_candybar_per_country = sum(numeric_rating)) %>% 
+  slice_max(ratings_candybar_per_country) 
+```
+
+
+
+
+
