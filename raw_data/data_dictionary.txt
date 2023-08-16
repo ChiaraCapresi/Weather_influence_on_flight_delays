@@ -1,0 +1,145 @@
+# Data dictionary:
+
+This dictionary has been created consequently to a starting data exploration and looking at the project brief.
+
+## `airlines`
+
+dim: (12, 2)
+
+columns:
+
+- `carrier`: shortcut for the airlines' names - type: character
+
+- `name`: airlines' names - type: character
+
+## `airports`
+
+dim(1333, 8)
+
+columns:
+
+- `faa`: FAA airport code (The location identifier assigned by the Federal Aviation Administration) - type: character
+
+- `name`: usual name of the airport - type: character
+
+- `lat`: latitude location of airport - type: double
+
+- `lon`: longitude location of airport - type: double
+
+- `alt`: altitude (in feet) - type: double
+
+- `tz`: timezone offset from GMT - type: double
+
+- `dst`: Daylight savings time zone. A = Standard US DST: starts on the second Sunday of March, ends on the first Sunday of November. U = unknown. N = no dst. - type: character
+
+- `tzone`: IANA time zone, as determined by GeoNames webService - type: character
+
+
+## `flights`
+
+dim(303748, 19)
+
+columns:
+
+- `year`: year of departure - type: double
+
+- `month`: month of departure - type: double
+
+- `day`: day of departure - type: double
+
+- `dep_time`: actual departure time, local tz - type: double
+
+- `sched_dep_time`: scheduled departure time, local tz - type: double
+
+- `dep_delay`: departure delays, (in minutes). Negative times represent early departures - type: double
+
+- `arr_time`: actual arrival time, local tz - type: double
+
+- `sched_arr_time`: scheduled arrival time, local tz - type: double
+
+- `arr_delay`: arrival delays, (in minutes) Negative times represent early arrivals - type: double
+
+- `carrier`: two letters carrier abbraviation - type: character
+
+- `flight`: flight number - type: double
+
+- `tailnum`: plane tail number - type: character
+
+- `origin`: origin airport faa - type: character - (good for join!)
+
+- `dest`: destination airport faa - type: character
+
+- `air_time`: amount of time spent in the air (in minutes) - type: double
+
+- `distance`: distance between airports (in miles) - type: double
+
+- `hour`: time of scheduled departure broken into hours - type: double
+
+- `minutes`: time of scheduled departure broken into minutes - type: double
+
+- `time_hour`: scheduled date and hour of the flight as a POSIXct date - (good for join!) - type dataformat
+
+
+## `planes`
+
+dim(3521, 9)
+
+columns: 
+
+- `tailnum`: tail number - type: character
+
+- `year`: year manufactured - type: double
+
+- `type`: type of plane - type: character
+
+- `manufacturer`: manufacturer - type: character
+
+- `model`: model - type: character
+
+- `engines`: number of engines - type: double
+
+- `seats`: number of seats - type: double
+
+- `speed`: average cruising speed (in mph) - type: double
+
+- `engine`: type of engine - type: character
+
+
+## `weather`
+
+dim(26201, 15)
+
+columns:
+
+- `origin`: weather station - named 'origin' to facilitate merging with flights data - type: character
+
+- `year`: year of recording - type: double
+
+- `month`: month of recording - type: double
+
+- `day`: day of recording - type: double
+
+- `hour`:  hour of recording - type: double
+
+- `temp`: temperature (in F) - type: double
+
+- `dewp`: dewpoint (in F) - type: double
+
+- `humid`: relative humidity - type: double
+
+- `wind_dir`: wind direction (in degrees) - type: double
+
+- `wind_speed`: wind speed (in mph) - type: double
+
+- `wind_gust`: wind gust speed (in mph) - type: double
+
+- `precip`: precipitation (in inches) - type: double
+
+- `pressure`: sea level pressure (in millibars) - type: double
+
+- `visib`: visibility (in miles)
+
+- `time_hour`: date and hour of the recording as POSIXct date - type: dataformat
+
+
+

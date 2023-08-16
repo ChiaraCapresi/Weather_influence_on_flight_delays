@@ -1,0 +1,22 @@
+"0","glimpse(planes)
+"
+"1","Rows: 3,521"
+"1",""
+"1","
+"
+"1","Columns: 9"
+"1",""
+"1","
+"
+"1","$ tailnum      [3m[38;5;246m<chr>[39m[23m ""N102AA"", ""N103AA"", ""N103SY"", ""N10575"", ""N105AA"", ""N105SY"", ""N106SY"", ""N107SY"", ""N108AA"", ""N108SY"", ""N…
+$ year         [3m[38;5;246m<dbl>[39m[23m 2007, 2007, 2014, 2002, 1978, 2014, 2014, 2014, 1977, 2014, 2007, 2014, 2007, 2014, 2002, 2002, 2004, …
+$ type         [3m[38;5;246m<chr>[39m[23m ""Fixed wing single engine"", ""Fixed wing single engine"", ""Fixed wing multi engine"", ""Fixed wing multi e…
+$ manufacturer [3m[38;5;246m<chr>[39m[23m ""AVIAT AIRCRAFT INC"", ""AVIAT AIRCRAFT INC"", ""EMBRAER S A"", ""EMBRAER"", ""CESSNA"", ""EMBRAER S A"", ""EMBRAE…
+$ model        [3m[38;5;246m<chr>[39m[23m ""A-1B"", ""A-1B"", ""ERJ 170-200 LR"", ""EMB-145LR"", ""R182"", ""ERJ 170-200 LR"", ""ERJ 170-200 LR"", ""ERJ 170-20…
+$ engines      [3m[38;5;246m<dbl>[39m[23m 1, 1, 2, 2, 1, 2, 2, 2, 1, 2, 1, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, …
+$ seats        [3m[38;5;246m<dbl>[39m[23m 2, 2, 88, 55, 4, 88, 88, 88, 2, 88, 2, 88, 2, 88, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 10, 149, 7, …
+$ speed        [3m[38;5;246m<dbl>[39m[23m NA, NA, NA, NA, 111, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+$ engine       [3m[38;5;246m<chr>[39m[23m ""Reciprocating"", ""Reciprocating"", ""Turbo-fan"", ""Turbo-fan"", ""Reciprocating"", ""Turbo-fan"", ""Turbo-fan"",…"
+"1",""
+"1","
+"

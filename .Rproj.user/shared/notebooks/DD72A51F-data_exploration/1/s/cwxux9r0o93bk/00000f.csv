@@ -1,0 +1,46 @@
+"0","airlines <- read_csv(here::here(""raw_data/airlines.csv""))"
+"2","[1mRows: [22m[34m12[39m [1mColumns: [22m[34m2[39m"
+"2","[36m──[39m [1mColumn specification[22m [36m──────────────────────────────────────────────────────────────────────────────────────────────────────[39m
+[1mDelimiter:[22m "",""
+[31mchr[39m (2): carrier, name"
+"2","
+[36mℹ[39m Use `spec()` to retrieve the full column specification for this data.
+[36mℹ[39m Specify the column types or set `show_col_types = FALSE` to quiet this message."
+"0","airports <- read_csv(here::here(""raw_data/airports.csv""))"
+"2","[1mRows: [22m[34m1333[39m [1mColumns: [22m[34m8[39m"
+"2","[36m──[39m [1mColumn specification[22m [36m──────────────────────────────────────────────────────────────────────────────────────────────────────[39m
+[1mDelimiter:[22m "",""
+[31mchr[39m (4): faa, name, dst, tzone
+[32mdbl[39m (4): lat, lon, alt, tz"
+"2","
+[36mℹ[39m Use `spec()` to retrieve the full column specification for this data.
+[36mℹ[39m Specify the column types or set `show_col_types = FALSE` to quiet this message."
+"0","flights <- read_csv(here::here(""raw_data/flights.csv""))"
+"2","[1mRows: [22m[34m303748[39m [1mColumns: [22m[34m19[39m"
+"2","[36m──[39m [1mColumn specification[22m [36m──────────────────────────────────────────────────────────────────────────────────────────────────────[39m
+[1mDelimiter:[22m "",""
+[31mchr[39m   (4): carrier, tailnum, origin, dest
+[32mdbl[39m  (14): year, month, day, dep_time, sched_dep_time, dep_delay, arr_time, sched_arr_time, arr_delay, flight, air_time, d...
+[34mdttm[39m  (1): time_hour"
+"2","
+[36mℹ[39m Use `spec()` to retrieve the full column specification for this data.
+[36mℹ[39m Specify the column types or set `show_col_types = FALSE` to quiet this message."
+"0","planes <- read_csv(here::here(""raw_data/planes.csv""))"
+"2","[1mRows: [22m[34m3521[39m [1mColumns: [22m[34m9[39m"
+"2","[36m──[39m [1mColumn specification[22m [36m──────────────────────────────────────────────────────────────────────────────────────────────────────[39m
+[1mDelimiter:[22m "",""
+[31mchr[39m (5): tailnum, type, manufacturer, model, engine
+[32mdbl[39m (4): year, engines, seats, speed"
+"2","
+[36mℹ[39m Use `spec()` to retrieve the full column specification for this data.
+[36mℹ[39m Specify the column types or set `show_col_types = FALSE` to quiet this message."
+"0","weather <- read_csv(here::here(""raw_data/weather.csv""))"
+"2","[1mRows: [22m[34m26201[39m [1mColumns: [22m[34m15[39m"
+"2","[36m──[39m [1mColumn specification[22m [36m──────────────────────────────────────────────────────────────────────────────────────────────────────[39m
+[1mDelimiter:[22m "",""
+[31mchr[39m   (1): origin
+[32mdbl[39m  (13): year, month, day, hour, temp, dewp, humid, wind_dir, wind_speed, wind_gust, precip, pressure, visib
+[34mdttm[39m  (1): time_hour"
+"2","
+[36mℹ[39m Use `spec()` to retrieve the full column specification for this data.
+[36mℹ[39m Specify the column types or set `show_col_types = FALSE` to quiet this message."

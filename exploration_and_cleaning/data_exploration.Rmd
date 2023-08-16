@@ -1,5 +1,5 @@
 ---
-title: "Data exploration"
+title: "Data exploration: first sight"
 output: html_notebook
 ---
 
@@ -10,197 +10,216 @@ library(tidyverse)
 
 In this file I am going to enact a first exploration of the data I have.
 
+I will start reading the ‘.csv’ files and using a few useful functions like ‘glimpse’ to familiarise with them.
 
-I will start reading the '.csv' files and using a few useful functions like 'glimpse' to familiarise with them.
 
 ```{r}
+airlines <- read_csv(here::here("raw_data/airlines.csv"))
+airports <- read_csv(here::here("raw_data/airports.csv"))
+flights <- read_csv(here::here("raw_data/flights.csv"))
+planes <- read_csv(here::here("raw_data/planes.csv"))
+weather <- read_csv(here::here("raw_data/weather.csv"))
+```
 
+
+# `airlines`
+
+```{r}
+glimpse(airlines)
+```
+```{r}
+airlines %>% 
+  distinct(carrier)
+```
+
+
+```{r}
+airlines %>% 
+  distinct(name)
+```
+ 
+## `airlines` NAs
+
+```{r}
+airlines %>% 
+  summarise(across(.col = everything(), .fns = ~sum(is.na(.x))))
+```
+No NAs!!!
+
+# `airports`
+
+
+```{r}
+glimpse(airports)
+```
+```{r}
+airports %>% 
+  distinct(tzone)
+```
+
+11 different 'time zones' are considered in the dataset.
+
+
+```{r}
+airports %>% 
+  distinct(tz)
+```
+
+```{r}
+airports %>% 
+  distinct(dst)
+```
+
+
+```{r}
+airports %>% 
+  filter(faa %in% c("BUF", "MIA", "JFK"))
+```
+
+## `airports` NAs
+
+```{r}
+airports %>% 
+  summarise(across(.col = everything(), .fns = ~sum(is.na(.x))))
+```
+
+There are Nas in the columns: `tz`, `dst` and `tzone`!
+
+Let's investigate a bit the relationship between `tz` and `tzone`.
+
+```{r}
+airports %>% 
+  group_by(tzone, tz) %>% 
+  summarise(num = n()) %>% 
+  arrange(desc(tz))
+```
+
+There are 56 airports of which we don't know neither the time zone, nor the time zone offset from GMT. For all the other airports if we don't know the exact timezone, we at least know their time zone offset from GMT. I will decide later how to deal with these NAs.
+
+
+# `flights`
+
+
+```{r}
+glimpse(flights)
 ```
 
 
 
+```{r}
+flights %>% 
+  distinct(carrier)
+```
 
+12 different carriers, exactly as we had in the `airlines` dataset.
 
+```{r}
+flights %>% 
+  distinct(origin)
+```
 
 
+```{r}
+flights %>% 
+  distinct(dest)
+```
 
+## `flights` NAs
 
+```{r}
+flights %>% 
+  summarise(across(.col = everything(), .fns = ~sum(is.na(.x))))
+```
 
+There are NAs in the columns: `dap_time`, `dep_delay`, `arr_time`, `arr_delay`, `tailnum` and `air_time`!
 
+# `planes`
 
 
+```{r}
+glimpse(planes)
+```
 
+```{r}
+planes %>% 
+  distinct(type)
+```
 
+```{r}
+planes %>% 
+  distinct(engine)
+```
 
 
+```{r}
+planes %>% 
+  distinct(manufacturer)
+```
 
+```{r}
+planes %>% 
+  distinct(model)
+```
 
+## `planes` NAs
 
+```{r}
+planes %>% 
+  summarise(across(.col = everything(), .fns = ~sum(is.na(.x))))
+```
+There are NAs in the columns: `year`, `seats` and `speed`!
 
+# `weather`
 
+```{r}
+glimpse(weather)
+```
 
+## `weather` NAs
 
+```{r}
+weather %>% 
+  summarise(across(.col = everything(), .fns = ~sum(is.na(.x))))
+```
 
 
+There are NAs in the columns: `temp`, `dewp`, `humid`, `wind_dir`, `wind_speed`, `wind_gust`, `precip`, `pressure` and `visib`!
 
 
+# Checking zeros
 
+In this section I am going to verify if the zeros which appear in some columns are to be considered as missing values or if instead they are real zero values.
 
 
+mutate(total_charges = na_if(total_charges, "na")) 
 
+```{r}
+flights %>% 
+  filter(dep_delay == 0) %>% 
+  mutate(real_delay = if_else(dep_time == sched_dep_time, TRUE, FALSE)) %>% 
+  filter(real_delay == FALSE)
+```
 
+The zeros in the `dep_delay` column actually represents flights with no departure delay, so they should be considered as real zero values.
 
 
+```{r}
+flights %>% 
+  filter(arr_delay == 0) %>% 
+  mutate(real_delay = if_else(arr_time == sched_arr_time, TRUE, FALSE)) %>% 
+  filter(real_delay == FALSE)
+```
 
+The zeros in the `arr_delay` column actually represents flights with no arrival delay, so they should be considered as real zero values.
 
+For all the other columns where zero values are registered there is no need to check anything because zeros are credible values for all of them (i.e. 'temperature', 'hour' or 'wind_speed', etc...).
 
 
+# First data analysis exploration
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+```{r}
+flights 
+```
 
 
 

@@ -8,13 +8,10 @@ output: html_notebook
 library(tidyverse)
 ```
 
-In this file I am going to enact a first exploration of the data I have.
 
-
-I will start reading the '.csv' files and using a few useful functions like 'glimpse' to familiarise with them.
 
 ```{r}
-
+read_csv(here::here("../raw_data/"))
 ```
 
 
