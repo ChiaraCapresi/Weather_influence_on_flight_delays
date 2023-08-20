@@ -212,7 +212,7 @@ flights %>%
 
 The zeros in the `arr_delay` column actually represents flights with no arrival delay, so they should be considered as real zero values.
 
-For all the other columns where zero values are registered there is no need to check anything because zeros are credible values for all of them (i.e. 'temperature', 'hour' or 'wind_speed', etc...).
+For all the other columns where zero values are registered, also in the `weather` table, there is no need to check anything because zeros are credible values for all of them (i.e. 'temperature', 'hour' or 'wind_speed', etc...).
 
 
 # First data analysis exploration
@@ -222,18 +222,102 @@ flights
 ```
 
 
+```{r}
+flights %>% 
+  mutate(dep_delay = dep_delay/60)
+```
+
+
+```{r}
+flights %>%
+  group_by(month) %>% 
+  filter(!is.na(dep_delay)) %>% 
+  mutate(dep_del_month = dep_delay / n()) %>% 
+  ggplot()+
+  aes(x = month, y = dep_del_month)+
+  geom_col()+
+  geom_line() +
+  geom_vline(xintercept = 0) +
+  geom_hline(yintercept = 0)
+
+?ylim
+```
 
 
 
+```{r}
+dim(flights)
+```
+```{r}
+flights %>% 
+  unite(col = "flight_id", c("flight", "tailnum"), sep = " ") %>% 
+  group_by(flight_id)
+
+?unite
+```
 
 
 
+```{r}
+flights %>%
+  group_by(month) %>% 
+  summarise(mean_dep_delay = mean(dep_delay, na.rm = TRUE)) %>% 
+  ggplot()+
+  aes(x = month, y = mean_dep_delay)+
+  geom_col()+
+  #geom_line() +
+  geom_vline(xintercept = 0) +
+  geom_hline(yintercept = 0)
+```
 
 
+```{r}
+flights %>% 
+  distinct(origin)
+```
+
+We have only three different 'departure' airports, which are also the same for which we have weather informations.
 
 
+```{r}
+weather %>% 
+  distinct(origin)
+```
+
+For these three we also have informations geographic information, since all these three belongs also to the 'airports' dataset.
 
 
+```{r}
+airports %>% 
+  distinct(faa) %>% # 1333 rows
+  filter(faa %in% c("EWR", "JFK", "LGA"))
+```
+
+
+```{r}
+flights %>% 
+  distinct(dest) %>%  #109
+  filter(dest %in% c("EWR", "JFK", "LGA"))
+```
+
+
+However, in the destination column of the 'flights' table doesn't appear any of the three airports `EWR`, `JFK` and `LGA` for which we have weather informations. So, this dataset gives us weather information only about the `departure airports`, which actually make sense, since it is reasonable think that, if weather influence in some way flights' delays this is mostly due to the weather conditions of the departure airport. 
+It could be interesting to analyse if or not the weather conditions of the arrival airport influence the delays too. For this we should start selecting the `destination airport` where are registered the major number of delays and search for it a `weather condition dataset○○6 for the year 2017. For now, I will leave it as an hypothesis for further research, I will analyse it if I have time.
+Another think that I could do would be that of create a ML model to see if the`destination airport` actually influence delays, with a view of further analysis about the destination points weather.
+
+
+```{r}
+flights %>% 
+  group_by(dest) %>% 
+  summarise(mean_delay = mean(arr_delay, na.rm = TRUE)) %>% 
+  arrange(desc(mean_delay))
+```
+
+```{r}
+airports %>% 
+  filter(faa %in% c("DSM", "CHO", "CAE")) %>% 
+  select(faa, name)
+```
 
 
 

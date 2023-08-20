@@ -1,0 +1,3 @@
+"0","flights %>% "
+"0","  unite(col = ""flight_id"", c(""flight"", ""tailnum""), sep = "" "") %>% "
+"0","  group_by(flight_id)"

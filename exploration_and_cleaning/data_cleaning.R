@@ -33,3 +33,29 @@ weather <- read_csv(here::here("raw_data/weather.csv"))
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
