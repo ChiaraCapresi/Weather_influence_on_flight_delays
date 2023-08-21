@@ -1,0 +1,10 @@
+"0","```r
+netflix <- netflix %>% 
+  mutate(time_period = as.period(today() - date_added),
+         time_years = as.numeric(time_period, \"years\"),
+         time_hours = as.numeric(time_period, \"hours\"),
+         time_minutes = as.numeric(time_period, \"minutes\"))
+
+head(netflix) %>% 
+  select(starts_with(\"time_\"))
+```"

@@ -1,0 +1,6 @@
+"0","```r
+netflix <- netflix %>% 
+  mutate(time_difftime = today() - date_added)
+
+head(netflix)
+```"

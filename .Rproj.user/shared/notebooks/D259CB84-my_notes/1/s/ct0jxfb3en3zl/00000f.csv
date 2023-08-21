@@ -1,0 +1,6 @@
+"0","delay_min_3 <- function(eff_time, sched_time){"
+"0","  del_hours = (24 - ceiling(eff_time)) + trunc(sched_time)"
+"0","  dec = 0.60 - (eff_time - trunc(eff_time)) + (sched_time - trunc(sched_time))"
+"0","  del_min = sign(eff_time - sched_time) * ((del_hours * 60) + (dec * 100)) #sign(delay_hours)*("
+"0","  return(del_min)"
+"0","}"

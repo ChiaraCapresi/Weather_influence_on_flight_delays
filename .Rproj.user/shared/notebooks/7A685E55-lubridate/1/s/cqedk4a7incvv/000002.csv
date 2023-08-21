@@ -1,0 +1,6 @@
+"0","```r
+netflix <- netflix %>% 
+  mutate(made_date = make_datetime(year, month, day))
+
+netflix
+```"

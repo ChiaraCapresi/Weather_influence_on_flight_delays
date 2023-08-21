@@ -1,0 +1,10 @@
+"0","```r
+# Duration
+
+netflix <- netflix %>% 
+  mutate(time_duration = as.duration(today() - date_added))
+
+
+head(netflix) %>% 
+  select(starts_with(\"time_\"))
+```"

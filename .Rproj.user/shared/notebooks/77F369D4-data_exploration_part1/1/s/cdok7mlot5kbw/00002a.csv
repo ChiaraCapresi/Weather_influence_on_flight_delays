@@ -1,0 +1,11 @@
+"0","flights_weather %>%
+  group_by(month, wind_speed) %>% 
+  summarise(mean_dep_delay = mean(dep_delay, na.rm = TRUE)) %>% 
+  ggplot()+
+  aes(x = month, y = mean_dep_delay, fill = as.factor(wind_speed))+
+  geom_col()+
+  #geom_line() +
+  geom_vline(xintercept = 0) +
+  geom_hline(yintercept = 0)
+"
+"2","`summarise()` has grouped output by 'month'. You can override using the `.groups` argument."

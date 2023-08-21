@@ -1,0 +1,8 @@
+"0","delay_min <- function(eff_time, sched_time){"
+"0","  delay_hours = eff_time - sched_time"
+"0","  hours = trunc(delay_hours)"
+"0","  dec = (delay_hours - hours)"
+"0","  del_min = (hours * 60) + (dec * 100) #sign(delay_hours)*("
+"0","  return(del_min)"
+"0","}"
+"0",""

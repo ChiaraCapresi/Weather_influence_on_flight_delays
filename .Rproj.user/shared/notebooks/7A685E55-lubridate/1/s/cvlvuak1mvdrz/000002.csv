@@ -1,0 +1,9 @@
+"0","```r
+netflix <- netflix  %>% 
+  mutate(
+    weekday = wday(date_added, label = TRUE, abbr = TRUE)
+  )
+?day
+
+
+```"

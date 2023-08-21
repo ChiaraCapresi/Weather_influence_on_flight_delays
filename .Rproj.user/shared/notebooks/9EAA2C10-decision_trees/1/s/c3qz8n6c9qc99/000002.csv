@@ -1,0 +1,27 @@
+"0","```r
+rf_classifier <- ranger(
+  formula = met_dog_flag ~.,
+  data = thrones_train,
+  importance = \"impurity\",
+  num.trees = 1000, #num of trees in the forest
+  mtry = 2, # num variables to consider at each node
+  min.node.size = 5 #minimum num of datapoints allowed at a node
+)
+
+rf_classifier
+```"
+"1","Ranger result
+
+Call:
+ ranger(formula = met_dog_flag ~ ., data = thrones_train, importance = \"impurity\",      num.trees = 1000, mtry = 2, min.node.size = 5) 
+
+Type:                             Classification 
+Number of trees:                  1000 
+Sample size:                      276 
+Number of independent variables:  8 
+Mtry:                             2 
+Target node size:                 5 
+Variable importance mode:         impurity 
+Splitrule:                        gini 
+OOB prediction error:             19.20 % 
+"

@@ -1,0 +1,5 @@
+"0","```r
+head(OlsonNames())
+```"
+"1","[1] \"Africa/Abidjan\"     \"Africa/Accra\"       \"Africa/Addis_Ababa\" \"Africa/Algiers\"     \"Africa/Asmara\"      \"Africa/Asmera\"     
+"

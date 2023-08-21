@@ -1,0 +1,7 @@
+"0","```r
+library(modelr)
+#add the predictions
+
+thrones_test_pred <- thrones_test %>% 
+  add_predictions(thrones_fit, type = \"class\")
+```"

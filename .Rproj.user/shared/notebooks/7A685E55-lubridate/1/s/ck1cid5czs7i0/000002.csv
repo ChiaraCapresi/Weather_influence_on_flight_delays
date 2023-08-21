@@ -1,0 +1,10 @@
+"0","```r
+# force_tz
+# with_tz
+
+netflix %>% 
+  mutate(
+    date_tz_1 = force_tz(date_added, tzone = \"Asia/Singapore\"),
+    date_tz_2 = with_tz(date_added, tzone = \"Asia/Singapore\")
+  )
+```"

@@ -1,0 +1,6 @@
+"0","```r
+sensitivity <- thrones_test_pred %>% 
+  sensitivity(truth = met_dog_flag, estimate = pred)
+
+sensitivity
+```"

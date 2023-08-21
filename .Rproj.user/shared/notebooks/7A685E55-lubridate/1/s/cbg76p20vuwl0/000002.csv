@@ -1,0 +1,10 @@
+"0","```r
+netflix <- netflix %>% 
+  mutate(
+    day = day(date_added),
+    month = month(date_added, label = TRUE, abbr = FALSE),
+    year = year(date_added)
+  )
+
+netflix
+```"

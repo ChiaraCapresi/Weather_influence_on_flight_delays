@@ -1,0 +1,2 @@
+"0","join_2 %>% "
+"0","  summarise(across(.col = everything(), .fns = ~sum(is.na(.x))))"

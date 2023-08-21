@@ -1,0 +1,11 @@
+"0","```r
+conf_mat <- thrones_test_pred %>% 
+  conf_mat(truth = met_dog_flag, estimate = pred)
+
+conf_mat
+```"
+"1","                   Truth
+Prediction          Met a dog Didn't meet a dog
+  Met a dog                19                10
+  Didn't meet a dog         8                32
+"

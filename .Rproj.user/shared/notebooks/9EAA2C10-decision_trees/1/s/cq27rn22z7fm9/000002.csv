@@ -1,0 +1,8 @@
+"0","```r
+#ranger doesn't work with add_predictions() so we have to use some dplyr
+
+thrones_test_pred_rf <- thrones_test %>% 
+  mutate(pred = predict(rf_classifier, data = thrones_test)$predictions, .after = met_dog_flag)
+
+thrones_test_pred_rf
+```"

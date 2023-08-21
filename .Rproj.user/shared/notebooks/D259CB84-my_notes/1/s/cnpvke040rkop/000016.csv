@@ -1,0 +1,2 @@
+"0","join_2 <- left_join(flights, weather, by = c(""time_hour"", ""origin"", ""month"", ""day"", ""hour""))"
+"0","join_2"

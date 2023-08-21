@@ -1,0 +1,205 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+date <- as.Date("2020-01-01")
+class(date)
+```
+
+```{r}
+unclass(date)
+```
+
+```{r}
+(38*365+12*366) # days from the start of UNIX time -1970-01-01 00:00:00
+```
+
+```{r}
+date_time1 <- as.POSIXct("2020-01-01 00:00:00")
+unclass(date_time1)
+```
+
+```{r}
+library(lubridate)
+```
+
+```{r}
+ymd("2019-01-19")
+```
+
+```{r}
+mdy("january 9th, 2019")
+```
+
+```{r}
+dmy("09-Jan-2019")
+```
+
+```{r}
+ymd_hms("2019-01-09 10:08:26")
+```
+```{r}
+library(tidyverse)
+netflix <- read_csv("data/netflix.csv")
+```
+
+```{r}
+netflix
+```
+
+
+```{r}
+netflix <- netflix %>% 
+  mutate(date_added = mdy(date_added))
+netflix
+```
+
+```{r}
+netflix <- netflix %>% 
+  mutate(
+    day = day(date_added),
+    month = month(date_added, label = TRUE, abbr = FALSE),
+    year = year(date_added)
+  )
+
+netflix
+
+```
+
+```{r}
+netflix <- netflix  %>% 
+  mutate(
+    weekday = wday(date_added, label = TRUE, abbr = TRUE)
+  )
+?day
+
+
+```
+
+
+```{r}
+netflix <- netflix %>% 
+  mutate(made_date = make_datetime(year, month, day))
+
+netflix
+```
+
+# CALCULATING TIME SPANS!
+
+```{r}
+netflix <- netflix %>% 
+  mutate(time_difftime = today() - date_added)
+
+head(netflix)
+```
+
+
+```{r}
+netflix <- netflix %>% 
+  mutate(time_period = as.period(today() - date_added),
+         time_years = as.numeric(time_period, "years"),
+         time_hours = as.numeric(time_period, "hours"),
+         time_minutes = as.numeric(time_period, "minutes"))
+
+head(netflix) %>% 
+  select(starts_with("time_"))
+```
+
+
+```{r}
+# Duration
+
+netflix <- netflix %>% 
+  mutate(time_duration = as.duration(today() - date_added))
+
+
+head(netflix) %>% 
+  select(starts_with("time_"))
+```
+
+# Timezones
+
+
+```{r}
+Sys.timezone()
+```
+
+
+```{r}
+head(OlsonNames())
+```
+
+
+```{r}
+ymd_hms("2023-09-13 20:22:01", tz = "Africa/Abidjan")
+```
+
+```{r}
+# force_tz
+# with_tz
+
+netflix %>% 
+  mutate(
+    date_tz_1 = force_tz(date_added, tzone = "Asia/Singapore"),
+    date_tz_2 = with_tz(date_added, tzone = "Asia/Singapore")
+  )
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

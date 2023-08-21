@@ -1,0 +1,8 @@
+"0","```r
+importance(rf_classifier)
+```"
+"1","                   sex               religion             occupation          social_status        allegiance_last 
+              5.028464               7.943055               6.036159               2.896194              15.324243 
+   allegiance_switched featured_episode_count             prominence 
+              1.851208              14.159603              49.492045 
+"
