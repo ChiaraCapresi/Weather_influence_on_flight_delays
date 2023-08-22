@@ -1,0 +1,8 @@
+"0","```r
+
+#other of variables in 'cor()' doesn't matter
+
+
+mtcars %>% 
+  summarise(correlation = cor(mpg, wt))
+```"

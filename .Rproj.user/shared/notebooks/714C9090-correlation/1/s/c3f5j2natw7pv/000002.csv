@@ -1,0 +1,6 @@
+"0","```r
+anscombe_long %>% 
+  ggplot(aes(x,y)) +
+  geom_point() +
+  facet_wrap(~set, ncol = 2)
+```"

@@ -1,0 +1,5 @@
+"0","tight_flights_weather %>% "
+"0","  filter(month == ""10"" & day == ""12"") %>% "
+"0","  ggplot()+"
+"0","  aes(x = time_hour, y = dep_delay)+"
+"0","  geom_point()"

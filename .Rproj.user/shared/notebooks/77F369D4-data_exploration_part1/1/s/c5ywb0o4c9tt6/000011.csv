@@ -1,2 +1,0 @@
-"0","flights_weather %>% "
-"0","  summarise(across(.col = everything(), .fns = ~sum(is.na(.x))))"

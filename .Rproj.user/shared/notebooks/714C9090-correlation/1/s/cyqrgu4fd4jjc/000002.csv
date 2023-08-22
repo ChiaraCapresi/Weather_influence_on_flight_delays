@@ -1,0 +1,14 @@
+"0","```r
+library(datasauRus)
+```"
+"1","Avvertimento: il pacchetto ‘datasauRus’ è stato creato con R versione 4.3.1
+"
+"0","```r
+datasaurus_dozen %>% 
+  group_by(dataset) %>% 
+  summarize(mean_x = mean(x),
+            mean_y = mean(y),
+            std_dev_x = sd(x),
+            std_dev_y = sd(y),
+            correlation  = cor(x, y))
+```"

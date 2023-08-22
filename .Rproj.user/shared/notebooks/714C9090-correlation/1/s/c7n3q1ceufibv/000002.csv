@@ -1,0 +1,9 @@
+"0","```r
+anscombe_long <- anscombe %>%
+  pivot_longer(
+    everything(),
+    cols_vary = \"slowest\",
+    names_to = c(\".value\", \"set\"),
+    names_pattern = \"(.)(.)\"
+  )
+```"

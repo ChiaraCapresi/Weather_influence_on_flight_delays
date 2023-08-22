@@ -1,0 +1,5 @@
+"0","```r
+anscombe_long %>% 
+  group_by(set) %>% 
+  summarise(mean_x = mean(x, na.rm = TRUE), sd_y = sd(y, na.rm = TRUE), cor_x_y = cor(x,y))
+```"
