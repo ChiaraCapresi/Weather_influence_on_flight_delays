@@ -1,11 +1,11 @@
 {
     "id": "203766ED",
-    "path": "C:/Users/chiar/codeclan/Weather_influence_on_flight_delays_Newark_airport/exploration_and_cleaning/data_exploration_part1.Rmd",
-    "project_path": "exploration_and_cleaning/data_exploration_part1.Rmd",
+    "path": "C:/Users/chiar/codeclan/Weather_influence_on_flight_delays_Newark_airport/analysis/analysis.Rmd",
+    "project_path": "analysis/analysis.Rmd",
     "type": "r_markdown",
     "hash": "0",
     "contents": "",
-    "dirty": true,
+    "dirty": false,
     "created": 1692701094639.0,
     "source_on_save": false,
     "relative_order": 3,
@@ -14,15 +14,15 @@
         "chunk_output_type": "inline",
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "68,13",
-        "scrollLine": "59"
+        "cursorPosition": "199,170",
+        "scrollLine": "195"
     },
     "folds": "",
-    "lastKnownWriteTime": 1692778680,
+    "lastKnownWriteTime": 1692781844,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1692778821618,
+    "last_content_update": 1692781844022,
     "read_only": false,
     "read_only_alternatives": []
 }

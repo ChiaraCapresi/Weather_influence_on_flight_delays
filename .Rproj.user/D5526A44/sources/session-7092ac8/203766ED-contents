@@ -197,9 +197,11 @@ tight_flights_weather %>%
 
 I don't find from this plot a particular incidence of `wind_dir` with the `dep_delay`.
 
-## Business Question 2: 
+## Business Question 2: Are there any other factors that together with `wind speed` and `visibility` influence the length of flights delays expecially at Newark Airport? 
 
-Are there any other factors that together with `wind speed` and `visibility` influence the length of flights delays? 
+
+
+
 
 
 ### Airlines
@@ -345,6 +347,9 @@ airports_weather_imp %>%
   distinct(airport, origin)
 ```
 
+
+
+
 ```{r}
 airlines_weather_imp %>% 
   group_by(origin, airline, wind_speed_group) %>% 
@@ -363,7 +368,7 @@ airlines_weather_imp %>%
 ```
 
 
-Very few companies seems to have a certain relationship between very intence wind speed and length of delays and only in specific airports.
+Very few companies seems to have a certain relationship between very intense wind speed and length of delays and only in specific airports.
 
 
 

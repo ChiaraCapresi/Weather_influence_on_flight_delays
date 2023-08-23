@@ -471,6 +471,33 @@ tight_flights_weather %>%
 
 
 
+```{r}
+tight_flights_weather %>% 
+  distinct(dep_delay) %>% 
+  arrange(dep_delay)
+```
+
+
+```{r}
+skimr::skim(airlines_weather_imp)
+```
+
+
+
+
+
+```{r}
+airlines_weather_imp %>% 
+  filter(dep_delay >= 0) %>%
+  mutate(dep_delay_10 = if_else(dep_delay <= 10, 1, 0)) %>% 
+  mutate()
+```
+
+
+```{r}
+
+```
+
 
 
 

@@ -1,0 +1,15 @@
+"0","airlines_weather_imp %>% 
+  group_by(origin, visib_group) %>% 
+  summarise(mean_dep_delay = mean(dep_delay, na.rm = TRUE)) %>% 
+  ggplot()+
+  aes(x = origin, y = mean_dep_delay, fill = visib_group)+
+  geom_col(position = ""dodge"")+
+  theme_light()+
+  labs(
+    x = ""\n Airlines"",
+    y = ""departure delays mean (in mins)\n"",
+    title = ""\nDeparture delays depending on different visibility conditions and airports\n""
+  )+
+  scale_x_discrete(guide = guide_axis(angle = 45))
+"
+"2","`summarise()` has grouped output by 'origin'. You can override using the `.groups` argument."

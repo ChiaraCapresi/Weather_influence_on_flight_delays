@@ -3,16 +3,18 @@
     "path": "C:/Users/chiar/codeclan/codeclan_work/week_11/day_02/decision_threes/decision_trees.Rmd",
     "project_path": null,
     "type": "r_markdown",
-    "hash": "2155824051",
+    "hash": "0",
     "contents": "",
-    "dirty": false,
+    "dirty": true,
     "created": 1692531613779.0,
     "source_on_save": false,
     "relative_order": 5,
     "properties": {
         "chunk_output_type": "inline",
         "source_window_id": "",
-        "Source": "Source"
+        "Source": "Source",
+        "cursorPosition": "49,25",
+        "scrollLine": "42"
     },
     "folds": "",
     "lastKnownWriteTime": 1692556427,
