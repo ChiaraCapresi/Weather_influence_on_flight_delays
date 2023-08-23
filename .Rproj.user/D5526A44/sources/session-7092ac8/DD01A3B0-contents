@@ -1,0 +1,536 @@
+---
+title: "My notes"
+output: html_notebook
+---
+
+
+```{r}
+library(tidyverse)
+```
+
+
+
+```{r}
+airlines <- read_csv(here::here("raw_data/airlines.csv"))
+airports <- read_csv(here::here("raw_data/airports.csv"))
+flights <- read_csv(here::here("raw_data/flights.csv"))
+planes <- read_csv(here::here("raw_data/planes.csv"))
+weather <- read_csv(here::here("raw_data/weather.csv"))
+```
+
+# First explorations
+
+
+```{r}
+flights %>%
+  group_by(month) %>% 
+  filter(!is.na(dep_delay)) %>% 
+  mutate(dep_del_month = dep_delay / n()) %>% 
+  ggplot()+
+  aes(x = month, y = dep_del_month)+
+  geom_col()+
+  geom_line() +
+  geom_vline(xintercept = 0) +
+  geom_hline(yintercept = 0)
+
+?ylim
+```
+
+
+
+
+This could be an interesting thing to consider to do, even if maybe not necessary
+
+```{r}
+flights %>% 
+  unite(col = "flight_id", c("flight", "tailnum"), sep = " ") %>% 
+  group_by(flight_id)
+
+?unite
+```
+
+
+
+
+
+
+```{r}
+flights %>%
+  group_by(month) %>% 
+  summarise(mean_dep_delay = mean(dep_delay, na.rm = TRUE)) %>% 
+  ggplot()+
+  aes(x = month, y = mean_dep_delay)+
+  geom_col()+
+  #geom_line() +
+  geom_vline(xintercept = 0) +
+  geom_hline(yintercept = 0)
+```
+
+
+
+
+
+
+
+# Join attempts
+
+
+### Cleaning operations
+
+```{r}
+weather <- weather %>% 
+  select(-c("temp", "dewp", "pressure", "precip", "humid", "year")) %>% 
+  rename_with(.col = c("month", "day", "hour"), .fn = ~paste(.x, "_recording", sep = ""))
+
+
+
+flights <- flights %>% 
+rename_with(.col = c("month", "day", "hour", "minute"), .fn = ~paste(.x, "_flight", sep = ""))
+
+
+join_1 <- inner_join(flights, weather, by = c("time_hour", "origin"))
+```
+
+
+
+
+
+```{r}
+
+join_1
+```
+
+
+
+```{r}
+join_2 <- left_join(flights, weather, by = c("time_hour", "origin", "month", "day", "hour"))
+join_2
+```
+
+```{r}
+join_2 %>% 
+  summarise(across(.col = everything(), .fns = ~sum(is.na(.x))))
+```
+
+
+
+```{r}
+join_3 <- inner_join(flights, weather, c("time_hour", "origin"))
+join_3
+```
+
+
+```{r}
+join_3 %>% 
+  summarise(across(.col = everything(), .fns = ~sum(is.na(.x))))
+```
+
+
+
+```{r}
+join_3 %>% 
+  filter((month.x == month.y) & (day.x == day.y) & (hour.x == hour.y))
+```
+
+
+
+```{r}
+join_1 %>% 
+  summarise(across(.col = everything(), .fns = ~sum(is.na(.x))))
+```
+
+
+
+```{r}
+flights_weather %>% 
+  ggplot()+
+  aes(x = day_flight, y = dep_delay)+
+  geom_point()
+```
+
+# Possible JOIN solution
+
+
+```{r}
+weather <- weather %>% 
+  select(-c("temp", "dewp", "pressure", "precip", "humid", "year", "month", "day", "hour"))
+
+
+
+flights <- flights %>% 
+  select(-c("month", "day", "hour", "year"))
+
+```
+
+
+
+
+```{r}
+flights_weather <- inner_join(flights, weather, c("time_hour", "origin"))
+flights_weather
+```
+
+
+
+
+```{r}
+library(lubridate)
+```
+
+```{r}
+flights_weather %>% 
+  mutate(
+    year = year(time_hour),
+    month = month(time_hour),
+    day = day(time_hour),
+    hour = hour(time_hour)
+  )
+```
+
+
+
+```{r}
+flights_weather %>% 
+  summarise(across(.col = everything(), .fns = ~sum(is.na(.x))))
+```
+
+
+
+```{r}
+flights_weather <- flights_weather %>% 
+  filter(!((is.na(wind_dir)) & (is.na(wind_speed)) & (is.na(wind_gust)) & (is.na(visib))))
+```
+
+
+
+```{r}
+flights_weather %>% 
+  summarise(across(.col = everything(), .fns = ~sum(is.na(.x))))
+```
+
+
+
+----
+
+
+### Function for delay minutes
+
+
+
+```{r}
+delay_min <- function(eff_time, sched_time){
+  delay_hours = eff_time - sched_time
+  hours = trunc(delay_hours)
+  dec = (delay_hours - hours)
+  del_min = (hours * 60) + (dec * 100) #sign(delay_hours)*(
+  return(del_min)
+}
+
+```
+
+
+```{r}
+delay_min(6.12, 6.20)
+```
+
+```{r}
+delay_min(6.12, 17.59)
+```
+```{r}
+delay_min(17.59, 6.12)
+```
+
+
+
+```{r}
+17.59-6.12
+(0.60-0.59 + 0.12)*100
+```
+
+```{r}
+delay_min_2 <- function(eff_time, sched_time){
+  del_hours = trunc(eff_time) - trunc(sched_time)
+  dec = 0.60 - (eff_time - trunc(eff_time)) + (sched_time - trunc(sched_time))
+  del_min = (del_hours * 60) + (dec * 100) #sign(delay_hours)*(
+  return(del_min)
+}
+
+```
+
+```{r}
+(trunc(17.59) - trunc(6.12)) * 60 + 
+```
+
+```{r}
+(24-ceiling(17.59))*60 + (0.60 - 0.59) * 100 + 6 * 60 + 12
+```
+
+```{r}
+delay_min_3 <- function(eff_time, sched_time){
+  del_hours = (24 - ceiling(eff_time)) + trunc(sched_time)
+  dec = 0.60 - (eff_time - trunc(eff_time)) + (sched_time - trunc(sched_time))
+  del_min = sign(eff_time - sched_time) * ((del_hours * 60) + (dec * 100)) #sign(delay_hours)*(
+  return(del_min)
+}
+```
+
+
+```{r}
+delay_min_3(17.59, 6.12)
+```
+```{r}
+12*60 + 13
+```
+
+```{r}
+delay_min_3(6.12, 17.59)
+```
+
+```{r}
+(24 - 7) * 60 + (0.60 - 0.12) * 100 + 17 * 60 + 59
+```
+
+```{r}
+17*60*2+48+59
+```
+```{r}
+delay_min_2(6.20, 6.12)
+```
+
+```{r}
+delay_min_4 <- function(eff_time, sched_time){
+  hours = trunc(eff_time) - ceiling(sched_time)
+  mins = (0.60 - (sched_time - trunc(sched_time)) + (eff_time - trunc(eff_time)))
+  delay = ((hours * 60) + (mins * 100))
+  return(delay)
+}
+```
+
+
+
+```{r}
+delay_min_4(7.20, 6.12)
+```
+
+```{r}
+delay_min_4(6.12, 7.20)
+```
+
+
+
+
+
+----
+
+# Business Question 1
+
+
+```{r}
+library(GGally)
+```
+
+
+
+
+```{r}
+flights_weather %>% 
+  filter(!is.na(arr_delay)) %>% 
+  summarise(cor(dep_delay, arr_delay))
+```
+
+First of all we notice that the arrival delays are strongly positive correlated with the departure delay. Since also the weather dataset refers only to the departure airports and for now I decided to ignore the arrival delays, I could consider to leave the `flights_weather` dataset as it is and to consider a smoller dataset to possibly join with the other that doesn't contains the departure delays.
+
+
+
+```{r}
+flights_weather %>% 
+  select(dep_delay, wind_dir, wind_speed, wind_gust, visib) %>% 
+  ggcorr(label = TRUE)
+```
+At a first sight, looking at the correlation indexes, it seems that there is not so much interaction between `dep_delays` and `weather` conditions.
+
+
+```{r}
+flights_weather %>% 
+  select(dep_delay, wind_dir, wind_speed, wind_gust, visib) %>% 
+  ggpairs(progress = FALSE)
+```
+
+
+First of all, we notice that there is a very strong correlation between `wind speed` and `wind gust speed` for this reason we could consider to delete one of the two since their relationship is so strong. 
+
+
+
+
+## wind speed
+
+
+
+
+```{r}
+flights_weather %>% 
+  summarise(across(.col = everything(), .fns = ~sum(is.na(.x))))
+```
+
+
+
+```{r}
+flights_weather %>%
+  group_by(month, wind_speed_group) %>% 
+  summarise(mean_dep_delay = mean(dep_delay, na.rm = TRUE)) %>% 
+  ggplot()+
+  aes(x = month, y = mean_dep_delay, fill = wind_speed_group)+
+  geom_col(position = "dodge")+
+  #geom_line() +
+  geom_vline(xintercept = 0) +
+  geom_hline(yintercept = 0) + 
+  theme_light()+
+  labs(
+    x = "\n months",
+    y = "departure delays mean (in mins)\n",
+    title = "\nDeparture delays depending on different wind speed conditions\n"
+  )+
+  scale_x_continuous(n.breaks = 12)
+```
+
+
+
+```{r}
+prova %>%
+  group_by(month) %>% 
+  summarise(mean_dep_delay = mean(dep_delay, na.rm = TRUE)) %>% 
+  ggplot()+
+  aes(x = month, y = mean_dep_delay)+
+  geom_col(fill = "9900FF")+
+  scale_x_continuous(n.breaks = 12)+
+  labs(
+    x = "\nmonths",
+    y = "departure delays mean (in mins)\n",
+    title = "\nDeparture delays per month in 2017\n"
+  )+
+  theme_light()
+```
+
+
+```{r}
+prova %>% 
+  ggplot()+
+  aes(x = as.numeric(wind_speed), y = dep_delay)+
+  geom_point()
+```
+
+It seems that if the `wind speed` increase, there increase the number of the delays, but not necessarely their length.
+
+
+
+
+
+
+```{r}
+prova %>% 
+  group_by(month) %>% 
+  summarise(mean_wind_speed = mean(wind_speed, na.rm = TRUE)) %>% 
+  ggplot()+
+  aes(x = month, y = mean_wind_speed)+
+  geom_col(fill = "339995")+
+  scale_x_continuous(n.breaks = 12)+
+  labs(
+    x = "\nmonths",
+    y = "mean of wind speed per month 2017\n",
+    title = "\nMean of wind spped per month in 2017\n"
+  )+
+  theme_light()
+```
+
+## Visib
+
+
+```{r}
+flights_weather %>% 
+  ggplot()+
+  aes(x = visib, y = dep_delay)+
+  geom_point()
+```
+
+```{r}
+tight_flights_weather %>% 
+  ggplot()+
+  aes(x = month, y = dep_delay)+
+  geom_point()+
+  #geom_line() +
+  #geom_vline(xintercept = 0) +
+  #geom_hline(yintercept = 0) + 
+  theme_light()+
+  labs(
+    x = "\n months",
+    y = "departure delays mean (in mins)\n",
+    title = "\nDeparture delays depending on different wind speed conditions\n"
+  )+
+  scale_x_continuous(n.breaks = 12)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

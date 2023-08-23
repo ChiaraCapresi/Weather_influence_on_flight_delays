@@ -1,0 +1,3 @@
+"0","tight_flights_weather %>% "
+"0","  select(wind_dir, wind_speed, wind_gust, visib, dep_delay) %>% "
+"0","  ggpairs(progress = FALSE)"

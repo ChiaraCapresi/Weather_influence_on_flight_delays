@@ -83,10 +83,10 @@ write_csv(tight_flights_weather, "cleaned_data/tight_flights_weather.csv")
 
 ## airlines: the column `name` seems to be confusing, I will rename it as `airline`.
 
-airlines_clean <- airlines %>% 
+airlines <- airlines %>% 
   rename("airline" = "name")
 
-airlines_weather_imp <- left_join(tight_flights_weather, airlines_clean, "carrier")
+airlines_weather_imp <- left_join(tight_flights_weather, airlines, "carrier")
 
 write_csv(airlines_weather_imp, "cleaned_data/airlines_weather_imp.csv")
 
