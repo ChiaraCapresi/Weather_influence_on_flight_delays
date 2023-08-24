@@ -1,2 +1,0 @@
-"0","airlines_weather_imp <- left_join(tight_flights_weather, airlines, ""carrier"")"
-"0","airlines_weather_imp"

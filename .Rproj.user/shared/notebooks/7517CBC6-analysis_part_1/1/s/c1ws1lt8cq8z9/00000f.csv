@@ -1,0 +1,15 @@
+"0","tight_flights_weather %>% 
+  group_by(month, wind_dir_group) %>% 
+  summarise(mean_dep_delay = mean(dep_delay, na.rm = TRUE)) %>% 
+  ggplot()+
+  aes(x = month, y = mean_dep_delay, fill = wind_dir_group)+
+  geom_col(position = ""dodge"")+
+  theme_light()+
+  labs(
+    x = ""\n months"",
+    y = ""departure delays mean (in mins)\n"",
+    title = ""\nDeparture delays depending on different wind speed conditions\n""
+  )+
+  scale_x_continuous(n.breaks = 12)
+"
+"2","`summarise()` has grouped output by 'month'. You can override using the `.groups` argument."

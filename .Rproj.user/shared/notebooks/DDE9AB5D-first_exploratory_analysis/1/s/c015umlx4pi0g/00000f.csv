@@ -1,0 +1,2 @@
+"0","tight_flights_weather %>% "
+"0","  distinct(wind_dir)"

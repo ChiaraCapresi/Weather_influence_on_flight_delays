@@ -1,0 +1,446 @@
+---
+title: "Exploratory analysis part. 2"
+output: html_notebook
+---
+
+
+```{r}
+library(tidyverse)
+library(GGally)
+```
+
+
+```{r}
+weather_impact <- read_csv(here::here("cleaned_data/weather_imp.csv"))
+```
+
+
+
+
+## Business Question 2: Are there any other factors that together with `wind speed` and `visibility` influence the length of flights delays expecially at Newark Airport? 
+
+### Airlines
+
+
+
+```{r}
+weather_impact %>% 
+  summarise(across(.col = everything(), .fns = ~sum(is.na(.x))))
+```
+
+```{r}
+weather_impact %>% 
+  distinct(carrier)
+```
+
+
+First of all let's have a look to see if there is a particular difference in terms of flights delays length among the different airlines.
+
+```{r}
+weather_impact %>% 
+  group_by(airline) %>% 
+  summarise(mean_dep_delay = mean(dep_delay, na.rm = TRUE)) %>% 
+  ggplot()+
+  aes(x = airline, y = mean_dep_delay)+
+  geom_col(position = "dodge", fill = "mediumorchid1")+
+  theme_light()+
+  labs(
+    x = "\n Airlines",
+    y = "departure delays mean (in mins)\n",
+    title = "\nDeparture delays depending on different airlines\n"
+  )+
+  scale_x_discrete(guide = guide_axis(angle = 45)) 
+```
+
+It seems that `ExpressJet Airlines` and `SkyWest Airlines` register the longest delays.
+
+Let's have a look now at how this is related to the weather.
+
+```{r}
+weather_impact %>% 
+  group_by(airline, wind_speed_group) %>% 
+  summarise(mean_dep_delay = mean(dep_delay, na.rm = TRUE)) %>% 
+  ggplot()+
+  aes(x = airline, y = mean_dep_delay, fill = wind_speed_group)+
+  geom_col(position = "dodge")+
+  theme_light()+
+  labs(
+    x = "\n Airlines",
+    y = "departure delays mean (in mins)\n",
+    title = "\nDeparture delays depending on different wind speed conditions and airlines\n"
+  )+
+  scale_x_discrete(guide = guide_axis(angle = 45)) 
+```
+
+Comparing these two last plots I can conclude that on the one hand, very fast winds can be related to longer delays, but it still doesn't seem to be the major impact factor. It seems that the impact that wind speed can have on the length of the delays depends, in addition to the period of the year, also from an airline to the other.
+Let's have a look, for example, at the `Alaska Airlines`. In mean it register the shortest delays with respect to the other companies, even if it seems that the length of delays for this company is strongly related to the wind speed.
+An opposite conclusion instead can be drawn, for example, for the `SkyWest Airlines` which seems to register longer delays which doesn't seems to be very much related to the wind speed. 
+
+
+```{r}
+weather_impact %>% 
+  group_by(airline, visib_group) %>% 
+  summarise(mean_dep_delay = mean(dep_delay, na.rm = TRUE)) %>% 
+  ggplot()+
+  aes(x = airline, y = mean_dep_delay, fill = visib_group)+
+  geom_col(position = "dodge")+
+  theme_light()+
+  labs(
+    x = "\n Airlines",
+    y = "departure delays mean (in mins)\n",
+    title = "\nDeparture delays depending on different visibility conditions and airline\n"
+  )+
+  scale_x_discrete(guide = guide_axis(angle = 45)) 
+```
+
+
+It doesn't seem to me that this plot add anything of particular interest to the conclusions we already drawn about visibility dependence of the length of flights delays. It seems that a few companies maybe are less affected by visibility, but generally speaking the trend seems more or less to be the same that we noticed in the general plot.
+
+
+## Airports
+
+
+
+
+
+
+
+```{r}
+weather_impact %>% 
+  group_by(origin) %>% 
+  summarise(mean_dep_delay = mean(dep_delay, na.rm = TRUE)) %>% 
+  ggplot()+
+  aes(x = origin, y = mean_dep_delay)+
+  geom_col(position = "dodge", fill = "lightsalmon")+
+  theme_light()+
+  labs(
+    x = "\n Departure Airports",
+    y = "Departure delays mean (in mins)\n",
+    title = "\nDeparture delays depending on different departure airports\n"
+  )+
+  scale_x_discrete(guide = guide_axis(angle = 45)) 
+```
+
+It doesn't seems that airports doesn't have a particular incidence with the length of delays, but let's have a look of the different weather conditions.
+
+
+```{r}
+weather_impact %>% 
+  group_by(origin, wind_speed_group) %>% 
+  summarise(mean_dep_delay = mean(dep_delay, na.rm = TRUE)) %>% 
+  ggplot()+
+  aes(x = origin, y = mean_dep_delay, fill = wind_speed_group)+
+  geom_col(position = "dodge")+
+  theme_light()+
+  labs(
+    x = "\n Airlines",
+    y = "departure delays mean (in mins)\n",
+    title = "\nDeparture delays depending on different wind speed conditions and airports\n"
+  )+
+  scale_x_discrete(guide = guide_axis(angle = 45)) 
+```
+
+It seems that a very intense wind speed influence in some ways the length of flights delays in the airports of `La Guardia`, so as in `Newark Liberty`, which is the one we are more interested in. Less impact instead seems to have at `JFK`. However, just winds with a speed greater than 26 mph seems to have any kind of relationship, there is no significant patterns to find out for winds with a less intense speed than 26.
+
+
+
+
+
+
+```{r}
+weather_impact %>% 
+  group_by(origin, airline, wind_speed_group) %>% 
+  summarise(mean_dep_delay = mean(dep_delay, na.rm = TRUE)) %>% 
+  ggplot()+
+  aes(x = origin, y = mean_dep_delay, fill = wind_speed_group)+
+  geom_col(position = "dodge")+
+  theme_light()+
+  labs(
+    x = "\n Airlines",
+    y = "departure delays mean (in mins)\n",
+    title = "\nDeparture delays depending on different wind speed conditions and airports\n"
+  )+
+  scale_x_discrete(guide = guide_axis(angle = 45))+
+  facet_wrap(~airline)
+```
+
+
+Very few companies seems to have a certain relationship between very intense wind speed and length of delays and only in specific airports.
+
+
+
+
+
+
+```{r}
+weather_impact %>% 
+  group_by(origin, visib_group) %>% 
+  summarise(mean_dep_delay = mean(dep_delay, na.rm = TRUE)) %>% 
+  ggplot()+
+  aes(x = origin, y = mean_dep_delay, fill = visib_group)+
+  geom_col(position = "dodge")+
+  theme_light()+
+  labs(
+    x = "\n Airlines",
+    y = "departure delays mean (in mins)\n",
+    title = "\nDeparture delays depending on different visibility conditions and airports\n"
+  )+
+  scale_x_discrete(guide = guide_axis(angle = 45))
+```
+
+A very law visibility seems to have a certain impact on delays' length at `La Guardia`, but not particularly on the other two.
+
+
+
+```{r}
+weather_impact %>% 
+  group_by(origin, airline, visib_group) %>% 
+  summarise(mean_dep_delay = mean(dep_delay, na.rm = TRUE)) %>% 
+  ggplot()+
+  aes(x = origin, y = mean_dep_delay, fill = visib_group)+
+  geom_col(position = "dodge")+
+  theme_light()+
+  labs(
+    x = "\n Airlines",
+    y = "departure delays mean (in mins)\n",
+    title = "\nDeparture delays depending on different visibility conditions, airports and airlines\n"
+  )+
+  scale_x_discrete(guide = guide_axis(angle = 45))+
+  facet_wrap(~airline)
+```
+
+
+Just `SkyWest Airlines` at `Nework Liberty International Airport` seems to have a strong relation between delays' length and very low visibility.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

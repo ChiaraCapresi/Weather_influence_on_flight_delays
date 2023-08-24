@@ -1,0 +1,16 @@
+"0","```r
+skimr::skim(tight_flights_weather)
+```"
+"1","── Data Summary ────────────────────────
+                           Values               
+Name                       tight_flights_weather
+Number of rows             291851               
+Number of columns          19                   
+_______________________                         
+Column type frequency:                          
+  character                6                    
+  numeric                  12                   
+  POSIXct                  1                    
+________________________                        
+Group variables            None                 
+"

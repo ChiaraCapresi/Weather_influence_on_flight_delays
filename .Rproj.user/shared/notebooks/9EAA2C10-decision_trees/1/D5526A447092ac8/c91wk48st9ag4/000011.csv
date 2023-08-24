@@ -1,5 +1,0 @@
-"0",""
-"0",""
-"0","thrones <- thrones %>% "
-"0","  rename_with(.cols = starts_with(""dth""), .fn = ~str_replace(.x, ""dth"", ""met_dog""))"
-"0",""

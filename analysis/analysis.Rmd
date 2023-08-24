@@ -15,7 +15,7 @@ library(GGally)
 
 
 ```{r}
-flights_weather <- read_csv(here::here("cleaned_data/flights_weather.csv"))
+#flights_weather <- read_csv(here::here("cleaned_data/flights_weather.csv"))
 tight_flights_weather <- read_csv(here::here("cleaned_data/tight_flights_weather.csv"))
 ```
 
@@ -58,9 +58,25 @@ tight_flights_weather %>%
   ggpairs(progress = FALSE)
 ```
 
-It seems interesting to analyse the relationship that `dep_delays` has with `wind_speed` and `visibility`.
+It seems interesting to analyse the relationship that `dep_delays` has with `wind_dir` and `visibility`.
 
+```{r}
+tight_flights_weather %>%
+  group_by(month) %>% 
+  summarise(mean_dep_delay = mean(dep_delay, na.rm = TRUE)) %>% 
+  ggplot()+
+  aes(x = month, y = mean_dep_delay)+
+  geom_col(fill = "9900FF")+
+  scale_x_continuous(n.breaks = 12)+
+  labs(
+    x = "\nmonths",
+    y = "departure delays mean (in mins)\n",
+    title = "\nDeparture delays per month in 2017\n"
+  )+
+  theme_light()
+```
 
+# Wind Speed
 
 ```{r}
 tight_flights_weather %>% 
@@ -69,9 +85,15 @@ tight_flights_weather %>%
   geom_point()
 ```
 
+From this plot it seems that the `wind_speed` is more related maybe to the number of delays than to their length, but I am not actually interested in that, since I decided to concentrate on their length. 
 
+```{r}
+tight_flights_weather %>% 
+  ggplot()+
+  aes(x = wind_dir, y = dep_delay)+
+  geom_point()
+```
 
-# Wind Speed
 
  
  
@@ -93,10 +115,41 @@ tight_flights_weather %>%
   )+
   scale_x_continuous(n.breaks = 12)
 ```
+```{r}
+tight_flights_weather %>%
+  group_by(month, wind_speed_group) %>% 
+  summarise(mean_dep_delay = mean(dep_delay, na.rm = TRUE)) %>% 
+  ggplot()+
+  aes(x = month, y = mean_dep_delay, colour = wind_speed_group)+
+  #geom_col(position = "dodge")+
+  geom_line()+
+  geom_point()
+```
+
+
 
 Generally speaking the wind speed is not regular during the year even if, having a look of the below plot, it seems that the departure delays seems to be more uniformly distributed with a few exceptions during winter. This would suggest that there is not a great relationship between departure delays and wind speed, as we already noticed looking at the correlation coefficients.
 
 However, looking with more attention at the above plot, we can notice that, at least, month by month it seems that the length of the delays increase when the wind speed is particularly high (look at May) even if even this proportion doesn't seems to be regular. 
+
+
+
+```{r}
+airlines_weather_imp %>% 
+  group_by(month) %>% 
+  summarise(mean_wind_speed = mean(wind_speed, na.rm = TRUE)) %>% 
+  ggplot()+
+  aes(x = month, y = mean_wind_speed)+
+  geom_col(fill = "339995")+
+  scale_x_continuous(n.breaks = 12)+
+  labs(
+    x = "\nmonths",
+    y = "mean of wind speed per month 2017\n",
+    title = "\nMean of wind spped per month in 2017\n"
+  )+
+  theme_light()
+```
+
 
 
 ```{r}
@@ -106,38 +159,13 @@ tight_flights_weather %>%
   geom_boxplot()
 ```
 
-
-
-
-
-
-
 ```{r}
-tight_flights_weather %>%
-  group_by(month) %>% 
-  summarise(mean_dep_delay = mean(dep_delay, na.rm = TRUE)) %>% 
-  ggplot()+
-  aes(x = month, y = mean_dep_delay)+
-  geom_col(fill = "9900FF")+
-  scale_x_continuous(n.breaks = 12)+
-  labs(
-    x = "\nmonths",
-    y = "departure delays mean (in mins)\n",
-    title = "\nDeparture delays per month in 2017\n"
-  )+
-  theme_light()
+
+model <- lm(dep_delay ~ wind_speed_group, tight_flights_weather)
+summary(model)
 ```
 
 
-```{r}
-tight_flights_weather %>% 
-  ggplot()+
-  aes(x = as.numeric(wind_speed), y = dep_delay)+
-  geom_point()
-```
-
-
-Looking at this plot, it seems that the wind speed influence more the number of delays than their length at least when it is less than 25, this could suggest that for very critical wind speed conditions the planes are equipped to deal with such intence wind!? by this is just an assumption.
 
 
 ## Visib
@@ -198,11 +226,6 @@ tight_flights_weather %>%
 I don't find from this plot a particular incidence of `wind_dir` with the `dep_delay`.
 
 ## Business Question 2: Are there any other factors that together with `wind speed` and `visibility` influence the length of flights delays expecially at Newark Airport? 
-
-
-
-
-
 
 ### Airlines
 
@@ -293,14 +316,7 @@ It doesn't seem to me that this plot add anything of particular interest to the 
 ## Airports
 
 
-```{r}
-airports_weather_imp <- read_csv("../cleaned_data/airports_weather_imp.csv")
-```
 
-
-```{r}
-airports_weather_imp
-```
 
 
 
@@ -342,10 +358,7 @@ airlines_weather_imp %>%
 
 It seems that a very intense wind speed influence in some ways the length of flights delays in the airports of `La Guardia`, so as in `Newark Liberty`, which is the one we are more interested in. Less impact instead seems to have at `JFK`. However, just winds with a speed greater than 26 mph seems to have any kind of relationship, there is no significant patterns to find out for winds with a less intense speed than 26.
 
-```{r}
-airports_weather_imp %>% 
-  distinct(airport, origin)
-```
+
 
 
 
