@@ -1,0 +1,28 @@
+{
+    "id": "C1FFB339",
+    "path": "C:/Users/chiar/codeclan/Weather_influence_on_flight_delays_Newark_airport/analysis/flights_analysis/analysis_part_1.Rmd",
+    "project_path": "analysis/flights_analysis/analysis_part_1.Rmd",
+    "type": "r_markdown",
+    "hash": "1322055466",
+    "contents": "",
+    "dirty": false,
+    "created": 1692885672022.0,
+    "source_on_save": false,
+    "relative_order": 2,
+    "properties": {
+        "tempName": "Untitled1",
+        "chunk_output_type": "inline",
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "310,35",
+        "scrollLine": "307"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1692984488,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1692984488955,
+    "read_only": false,
+    "read_only_alternatives": []
+}
