@@ -1,0 +1,25 @@
+"0","skimr::skim(flights_weather)"
+"1","── Data Summary ────────────────────────
+"
+"1","                           Values         
+"
+"1","Name                       flights_weather
+"
+"1","Number of rows             120955         
+"
+"1","Number of columns          20             
+"
+"1","_______________________                   
+"
+"1","Column type frequency:                    
+"
+"1","  character                7              
+"
+"1","  numeric                  12             
+"
+"1","  POSIXct                  1              
+"
+"1","________________________                  
+"
+"1","Group variables            None           
+"

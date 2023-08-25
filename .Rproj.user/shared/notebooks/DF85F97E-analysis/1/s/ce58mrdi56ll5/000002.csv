@@ -1,0 +1,12 @@
+"0","```r
+tight_flights_weather <- read_csv(here::here(\"cleaned_data/tight_flights_weather.csv\"))
+
+```"
+"1","Rows: 291851 Columns: 19── Column specification ─────────────────────────────────────────────────────────────────────────────────────────────────────
+Delimiter: \",\"
+chr   (6): carrier, tailnum, origin, dest, wind_speed_group, visib_group
+dbl  (12): dep_delay, arr_delay, flight, air_time, distance, wind_dir, wind_speed, wind_gust, visib, month, day, hour
+dttm  (1): time_hour
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+"
