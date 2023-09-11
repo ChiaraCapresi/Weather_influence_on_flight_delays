@@ -271,9 +271,21 @@ Just `SkyWest Airlines` at `Nework Liberty International Airport` seems to have 
 
 
 
+```{r}
+tight_flights_weather %>% 
+  summarise(mean_del = mean(dep_delay, na.rm = TRUE))
+```
+
+```{r}
+tight_flights_weather %>% 
+summarise(mean(dep_delay, na.rm = TRUE))
+```
 
 
-
+```{r}
+tight_flights_weather %>% 
+  arrange(desc(wind_speed))
+```
 
 
 

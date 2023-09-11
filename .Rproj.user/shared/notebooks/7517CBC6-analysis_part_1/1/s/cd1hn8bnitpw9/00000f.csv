@@ -1,5 +1,5 @@
-"0","summary(model_tot_3)
-"
+"0","model_tot_3 <- lm(dep_delay ~ wind_dir_group + wind_speed_group, tight_flights_weather)"
+"0","summary(model_tot_3)"
 "1","
 Call:
 "

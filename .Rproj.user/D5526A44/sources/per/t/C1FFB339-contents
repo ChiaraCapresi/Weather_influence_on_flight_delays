@@ -17,6 +17,9 @@ library(GGally)
 ```{r}
 flights_weather <- read_csv(here::here("cleaned_data/flights_weather.csv"))
 ```
+```{r}
+tight_flights_weather <- read_csv(here::here("cleaned_data/tight_flights_weather.csv"))
+```
 
 
 ```{r}
@@ -74,6 +77,8 @@ Here the correlation coefficients seems, even if still quite low, to give a more
 
 
 Let's have a more accurate view of how these three features are related with the 'departure delays'.
+
+
 
 # Wind Speed
 

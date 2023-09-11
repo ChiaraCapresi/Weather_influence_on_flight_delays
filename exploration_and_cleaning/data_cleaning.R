@@ -55,7 +55,8 @@ flights_weather <- flights_weather %>%
 
 flights_weather <- flights_weather %>% 
   mutate(wind_speed_group = case_when(
-    wind_speed >= 0 & wind_speed <= 5 ~ "0 - 5",
+    #wind_speed >= 0 &
+    wind_speed <= 5 ~ "0 - 5",
     wind_speed > 5 & wind_speed <= 15 ~ "6 - 15",
     wind_speed > 15 & wind_speed <= 25 ~ "16 - 25",
     wind_speed > 25 & wind_speed <= 35 ~ "26 - 35"
@@ -84,7 +85,8 @@ write_csv(flights_weather, "cleaned_data/flights_weather.csv")
 
 tight_flights_weather <- flights_weather %>% 
   mutate(wind_speed_group = case_when(
-    wind_speed >= 0 & wind_speed <= 25 ~ "0 - 25",
+    #wind_speed >= 0 & 
+    wind_speed <= 25 ~ "less than 25",
     wind_speed > 25 & wind_speed <= 35 ~ "over 26"
   )) %>% 
   mutate(visib_group = case_when(

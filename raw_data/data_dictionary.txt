@@ -77,7 +77,7 @@ columns:
 
 - `minutes`: time of scheduled departure broken into minutes - type: double
 
-- `time_hour`: scheduled date and hour of the flight as a POSIXct date - (good for join!) - type dataformat
+- `time_hour`: scheduled date and hour of the flight as a POSIXct data - (good for join!) - type dateformat
 
 
 ## `planes`
@@ -137,7 +137,7 @@ columns:
 
 - `pressure`: sea level pressure (in millibars) - type: double
 
-- `visib`: visibility (in miles)
+- `visib`: visibility (in miles) - type: double
 
 - `time_hour`: date and hour of the recording as POSIXct date - type: dataformat
 
